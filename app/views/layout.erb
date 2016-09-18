@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Hello World</title>
+
+  <style>
+    #map {
+      height: 200px;
+    }
+  </style>
+
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="jquery.js"></script>
+  <script src="jquery.pjax.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      console.log("DOM Ready")
+      $(document).pjax('a', '#main')
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 51.100185, lng: 6.885359},
+        scrollwheel: false,
+        zoom: 8
+      })
+
+      persistedElements = []
+
+      $(document).on('pjax:start', function() {
+        $("[data-pjax-persist]").each(function(_i, el) {
+          var $el = $(el)
+          persistedElements.push($el.detach())
+        })
+       })
+
+      $(document).on('pjax:complete', function() {
+        persistedElements.forEach(function(persistedElement) {
+          var id = persistedElement.attr("id")
+          $("#" + id).replaceWith(persistedElement)
+        })
+
+        persistedElements = []
+      });
+    })
+  </script>
+</head>
+
+<div id="main">
+  <%= yield %>
+</div>
+
+</html>
