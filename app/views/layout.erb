@@ -30,7 +30,7 @@
       $(document).on('pjax:start', function() {
         $("[data-pjax-persist]").each(function(_i, el) {
           var $el = $(el)
-          persistedElements.push($el.detach())
+          persistedElements.push($el.copy())
         })
        })
 
