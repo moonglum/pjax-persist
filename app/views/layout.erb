@@ -27,10 +27,10 @@
 
       persistedElements = []
 
-      $(document).on('pjax:start', function() {
+      $(document).on('pjax:beforeReplace', function() {
         $("[data-pjax-persist]").each(function(_i, el) {
           var $el = $(el)
-          persistedElements.push($el.copy())
+          persistedElements.push($el.detach())
         })
        })
 
